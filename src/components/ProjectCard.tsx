@@ -2,23 +2,40 @@ import React, { useState } from 'react';
 import type { Project } from '../types';
 import { ArrowUpRight } from 'lucide-react';
 import { DecipherText } from './DecipherText';
+import { motion } from 'framer-motion';
+import { useAudio } from './AudioProvider';
 
 interface ProjectCardProps {
   project: Project;
   index: number;
+  onClick: () => void;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { playHover, playClick } = useAudio();
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    playHover();
+  };
+
+  const handleClick = () => {
+    playClick();
+    onClick();
+  };
 
   return (
-    <div 
+    <motion.div 
+      layoutId={`project-container-${project.id}`}
       className="group relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden border border-ash bg-void cursor-none"
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
     >
       {/* Background Image - Slower, moody zoom effect */}
-      <div 
+      <motion.div 
+        layoutId={`project-image-${project.id}`}
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-out group-hover:scale-110 filter grayscale brightness-50 group-hover:grayscale-[0.2] group-hover:brightness-100"
         style={{ backgroundImage: `url(${project.image})` }}
       />
@@ -42,13 +59,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           </p>
 
           {/* Title - Fixed to be opacity-0 initially */}
-          <h3 className="font-gothic text-3xl sm:text-4xl md:text-5xl text-bone mb-3 md:mb-4 leading-none translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-75 ease-out drop-shadow-lg">
+          <motion.h3 
+            layoutId={`project-title-${project.id}`}
+            className="font-gothic text-3xl sm:text-4xl md:text-5xl text-bone mb-3 md:mb-4 leading-none translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-75 ease-out drop-shadow-lg"
+          >
             <DecipherText 
               text={project.title} 
               trigger={isHovered} 
               revealDelay={100} 
             />
-          </h3>
+          </motion.h3>
 
           {/* Decorative Line - Expands smoothly */}
           <div className="h-[1px] bg-crimson mb-4 md:mb-5 w-0 group-hover:w-full transition-all duration-1000 delay-150 ease-in-out opacity-60" />
@@ -64,6 +84,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
