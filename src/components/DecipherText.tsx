@@ -17,7 +17,7 @@ export const DecipherText: React.FC<DecipherTextProps> = ({
 }) => {
   const [displayText, setDisplayText] = useState('');
   const intervalRef = useRef<number | null>(null);
-  const iterationRef = useRef(0);
+  // Removed unused iterationRef
 
   useEffect(() => {
     if (!trigger) return;
@@ -26,13 +26,13 @@ export const DecipherText: React.FC<DecipherTextProps> = ({
     const startDelay = setTimeout(() => {
       let iteration = 0;
       
-      clearInterval(intervalRef.current as number);
+      if (intervalRef.current) clearInterval(intervalRef.current);
       
       intervalRef.current = window.setInterval(() => {
         setDisplayText(
           text
             .split('')
-            .map((letter, index) => {
+            .map((_, index) => { // Changed 'letter' to '_' since it was unused
               if (index < iteration) {
                 return text[index];
               }
@@ -42,7 +42,7 @@ export const DecipherText: React.FC<DecipherTextProps> = ({
         );
 
         if (iteration >= text.length) {
-          clearInterval(intervalRef.current as number);
+          if (intervalRef.current) clearInterval(intervalRef.current);
         }
 
         iteration += 1 / 3; // Controls speed of reveal

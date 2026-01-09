@@ -7,10 +7,12 @@ export interface Project {
   description: string;
 }
 
-export enum SectionId {
-  HERO = 'hero',
-  WORK = 'work',
-  ABOUT = 'about',
-  CONTACT = 'contact',
-}
-  
+// Replaced enum with const object + type for better build compatibility
+export const SectionId = {
+  HERO: 'hero',
+  WORK: 'work',
+  ABOUT: 'about',
+  CONTACT: 'contact',
+} as const;
+
+export type SectionId = typeof SectionId[keyof typeof SectionId];
