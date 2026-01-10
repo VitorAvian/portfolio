@@ -16,7 +16,11 @@ const Magnetic: React.FC<MagneticProps> = ({ children, className = '', strength 
     const { height, width, left, top } = ref.current.getBoundingClientRect();
     const x = clientX - (left + width / 2);
     const y = clientY - (top + height / 2);
-    setPosition({ x: x * 0.5, y: y * 0.5 });
+    
+    // Utiliza a prop strength para calcular a intensidade do movimento (fator de atração)
+    // Dividimos por 100 para que 'strength' funcione como uma porcentagem/fator suave
+    const factor = strength / 100;
+    setPosition({ x: x * factor, y: y * factor });
   };
 
   const handleMouseLeave = () => {
