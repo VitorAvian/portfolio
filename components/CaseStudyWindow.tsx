@@ -181,7 +181,7 @@ const CaseStudyWindow: React.FC<CaseStudyWindowProps> = ({ project, onClose, fas
                 </div>
 
                 <div className="border-t border-stone-800 pt-8 md:pt-12 mt-8 md:mt-12">
-                   <h3 className="text-lg md:text-xl font-mono mb-4 text-stone-500">>> CONCLUSÃO DO SISTEMA</h3>
+                   <h3 className="text-lg md:text-xl font-mono mb-4 text-stone-500">&gt;&gt; CONCLUSÃO DO SISTEMA</h3>
                    <p className="text-sm md:text-base text-stone-400">
                      O projeto resultou em um aumento de 300% no engajamento do culto digital da marca. A estética rúnica se tornou a nova linguagem visual padrão para o setor.
                    </p>
